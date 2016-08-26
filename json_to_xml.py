@@ -30,13 +30,15 @@ def main():
   with open('sample.json') as json_data_file:
     json_data = json.load(json_data_file)
 
+    xml_pretty_string = ''
     for key, value in json_data.items():
       xml = json_to_xml(key, value)
+      xml_pretty_string += etree.tostring(xml, pretty_print=True)
 
-    xml_pretty = etree.tostring(xml, pretty_print=True)
-    print xml_pretty
-    xml_tree = etree.ElementTree(xml)
-    xml_tree.write('sample.xml', pretty_print=True)
+    print xml_pretty_string
+
+    output_file = open('sample.xml', 'w')
+    output_file.write(xml_pretty_string)
 
 
 if __name__ == "__main__":
