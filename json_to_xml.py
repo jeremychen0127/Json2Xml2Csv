@@ -18,9 +18,9 @@ def json_to_xml(key, value):
   elif type(value) is LongType:
     parent.text = value
   elif type(value) is DictType:
-    for childKey, childValue in value.items():
-      childXml = json_to_xml(childKey, childValue)
-      parent.append(childXml)
+    for child_key, child_value in value.items():
+      child_xml = json_to_xml(child_key, child_value)
+      parent.append(child_xml)
 
   return parent
 
@@ -33,6 +33,8 @@ def main():
 
     xml_pretty = etree.tostring(xml, pretty_print=True)
     print xml_pretty
+    xml_tree = etree.ElementTree(xml)
+    xml_tree.write('sample.xml', pretty_print=True)
 
 
 if __name__ == "__main__":
