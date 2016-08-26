@@ -6,21 +6,23 @@ def json_to_xml(key, value):
   parent = etree.Element(key)
 
   if type(value) is BooleanType:
-    parent.text = value
+    parent.text = str(value).lower()
   elif type(value) is StringType:
     parent.text = value
   elif type(value) is UnicodeType:
     parent.text = value
   elif type(value) is FloatType:
-    parent.text = value
+    parent.text = str(value)
   elif type(value) is IntType:
-    parent.text = value
+    parent.text = str(value)
   elif type(value) is LongType:
-    parent.text = value
+    parent.text = str(value)
   elif type(value) is DictType:
     for child_key, child_value in value.items():
       child_xml = json_to_xml(child_key, child_value)
       parent.append(child_xml)
+
+  # TODO: null value?
 
   return parent
 
