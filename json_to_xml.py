@@ -1,4 +1,5 @@
 import json
+from args import *
 from types import *
 from lxml import etree
 
@@ -67,8 +68,11 @@ def json_to_xml(key, value):
 
 
 def main():
+  # Get arguments
+  args = parse_args()
+
   # Open the input JSON file
-  with open('sample1.json') as json_data_file:
+  with open(args.source_json_file) as json_data_file:
 
     # Load the JSON
     json_data = json.load(json_data_file)
@@ -84,10 +88,16 @@ def main():
       for element in element_list:
         xml_pretty_string += etree.tostring(element, pretty_print=True)
 
-    print xml_pretty_string
+    #print xml_pretty_string
+
+    # Determine the output file name
+    if args.output:
+      output_file_name = args.output
+    else:
+      output_file_name = args.source_json_file.split('.json')[0] + '.xml'
 
     # Open the output file for writing
-    output_file = open('sample.xml', 'w')
+    output_file = open(output_file_name, 'w')
 
     # Writes the XML pretty string to file
     output_file.write(xml_pretty_string)
