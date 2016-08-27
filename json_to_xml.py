@@ -2,38 +2,57 @@ import json
 from types import *
 from lxml import etree
 
+def isPrimitive(value):
+  PRIMITIVES = [BooleanType, StringType, UnicodeType, FloatType, IntType, LongType]
+  return type(value) in PRIMITIVES
+
+def json_array_to_xml(key, values):
+  element_list = []
+
+  for value in values:
+    parent = json_to_xml(key, value)[0]
+    element_list.append(parent)
+
+  return element_list
+
+
 def json_to_xml(key, value):
-  parent = etree.Element(key)
+  element_list = []
 
-  if type(value) is BooleanType:
+  if isPrimitive(value):
+    parent = etree.Element(key)
     parent.text = str(value).lower()
-  elif type(value) is StringType:
-    parent.text = value
-  elif type(value) is UnicodeType:
-    parent.text = value
-  elif type(value) is FloatType:
-    parent.text = str(value)
-  elif type(value) is IntType:
-    parent.text = str(value)
-  elif type(value) is LongType:
-    parent.text = str(value)
+    element_list.append(parent)
   elif type(value) is DictType:
+    parent = etree.Element(key)
     for child_key, child_value in value.items():
-      child_xml = json_to_xml(child_key, child_value)
-      parent.append(child_xml)
+      if type(child_value) is ListType:
+        child_element_list = json_array_to_xml(child_key, child_value)
+      else:
+        child_element_list = json_to_xml(child_key, child_value)
 
-  # TODO: null value?
+      for element in child_element_list:
+        parent.append(element)
 
-  return parent
+    element_list.append(parent)
+  elif type(value) is ListType:
+    element_list = json_array_to_xml(key, value)
+
+  return element_list
 
 def main():
-  with open('sample.json') as json_data_file:
+  with open('sample1.json') as json_data_file:
     json_data = json.load(json_data_file)
 
     xml_pretty_string = ''
     for key, value in json_data.items():
-      xml = json_to_xml(key, value)
-      xml_pretty_string += etree.tostring(xml, pretty_print=True)
+      if type(value) is ListType:
+        element_list = json_array_to_xml(key, value)
+      else:
+        element_list = json_to_xml(key, value)
+
+      for element in element_list:
+        xml_pretty_string += etree.tostring(element, pretty_print=True)
 
     print xml_pretty_string
 
