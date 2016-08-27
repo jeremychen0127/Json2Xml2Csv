@@ -3,7 +3,7 @@ import time
 import json
 from lxml import etree
 from xml_to_json_utils import *
-from args import *
+from args import xml_to_json_parse_args
 
 
 def xml_to_json(xml_element):
@@ -21,12 +21,12 @@ def main():
   print("Start Processing...")
 
   # Get arguments
-#args = parse_args()
+  args = xml_to_json_parse_args()
 
   # Load the JSON
   print("Loading XML file..."),
   sys.stdout.flush()
-  xml_data = etree.parse("sample.xml")
+  xml_data = etree.parse(args.source_xml_file)
   root = xml_data.getroot()
   print("\rLoading XML file...[Completed]")
 
@@ -42,13 +42,13 @@ def main():
   sys.stdout.flush()
 
   # Determine the output file name
-#  if args.output:
-#    output_file_name = args.output
-#  else:
-#    output_file_name = args.source_xml_file.split('.xml')[0] + '.json'
+  if args.output:
+    output_file_name = args.output
+  else:
+    output_file_name = args.source_xml_file.split('.xml')[0] + '.json'
 
   # Open the output file for writing
-  output_file = open("sam.json", 'w')
+  output_file = open(output_file_name, 'w')
 
   # Writes the XML pretty string to file
   output_file.write(json_object)

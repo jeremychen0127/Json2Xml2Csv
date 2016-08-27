@@ -1,7 +1,7 @@
 from lxml import etree
 from types import ListType
 from json_to_xml_utils import *
-from args import *
+from args import json_to_xml_parse_args
 
 def json_to_xml(json):
   """
@@ -26,7 +26,7 @@ def main():
   print("Start Processing...")
 
   # Get arguments
-  args = parse_args()
+  args = json_to_xml_parse_args()
 
   # Open the input JSON file
   with open(args.source_json_file) as json_data_file:
