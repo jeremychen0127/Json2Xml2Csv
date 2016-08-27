@@ -1,3 +1,0 @@
-#!/bin/bash
-
-python json_xml_csv/json_to_xml.py "$@"
