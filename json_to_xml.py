@@ -1,4 +1,6 @@
 import json
+import sys
+import time
 from args import *
 from types import *
 from lxml import etree
@@ -68,6 +70,8 @@ def json_to_xml(key, value):
 
 
 def main():
+  print("Start Processing...")
+
   # Get arguments
   args = parse_args()
 
@@ -75,7 +79,13 @@ def main():
   with open(args.source_json_file) as json_data_file:
 
     # Load the JSON
+    print("Loading JSON file..."),
+    sys.stdout.flush()
     json_data = json.load(json_data_file)
+    print("\rLoading JSON file...[Completed]")
+
+    print("Converting to XML..."),
+    sys.stdout.flush()
 
     # Process the JSON
     xml_pretty_string = ''
@@ -88,7 +98,10 @@ def main():
       for element in element_list:
         xml_pretty_string += etree.tostring(element, pretty_print=True)
 
-    #print xml_pretty_string
+    print("\rConverting to XML...[Completed]")
+
+    print("Writing to file..."),
+    sys.stdout.flush()
 
     # Determine the output file name
     if args.output:
@@ -101,6 +114,8 @@ def main():
 
     # Writes the XML pretty string to file
     output_file.write(xml_pretty_string)
+    print("\rWriting to file...[Completed]")
+    print("COMPLETED: JSON -> XML")
 
 
 if __name__ == "__main__":
