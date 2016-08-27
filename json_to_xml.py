@@ -70,6 +70,7 @@ def json_to_xml(key, value):
 
 
 def main():
+  start_time = time.time()
   print("Start Processing...")
 
   # Get arguments
@@ -115,7 +116,11 @@ def main():
     # Writes the XML pretty string to file
     output_file.write(xml_pretty_string)
     print("\rWriting to file...[Completed]")
-    print("COMPLETED: JSON -> XML")
+
+    # Calculate the processing time
+    end_time = time.time()
+    processing_time = end_time - start_time
+    print("COMPLETED: JSON -> XML in %.5f seconds" % processing_time)
 
 
 if __name__ == "__main__":
