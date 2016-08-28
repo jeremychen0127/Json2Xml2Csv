@@ -5,6 +5,12 @@ Json2Xml2Csv is an utility for converting data files. Currently only support JSO
 ### Execute as Converter
 After cloning or downloading Json2Xml2Csv, go into the project directory.
 
-Simply run `./json2xml SOURCE_JSON_FILE_PATH`
+For JSON -> XML, run `./json2xml SOURCE_JSON_FILE_PATH`
 
-The converted XML file will be in the same directory as this script
+For XML -> JSON, run `./xml2json SOURCE_XML_FILE_PATH`
+
+The converted file will be in the same directory as this script
+
+### Execution Options
+
+`-o, --output OUTPUT_FILE_FULL_PATH` to set the location and/or the name of the output file
