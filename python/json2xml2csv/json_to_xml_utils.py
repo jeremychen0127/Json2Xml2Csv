@@ -36,7 +36,9 @@ def key_value_to_xml(key, value):
     parent = etree.Element(key)
 
     # Set value to text of the element
-    parent.text = str(value).lower()
+    parent.text = str(value)
+    if type(value) is BooleanType:
+      parent.text = str(value).lower()
 
     # Add the element to the list
     element_list.append(parent)
